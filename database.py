@@ -108,16 +108,6 @@ class Database:
                 if not connection.autocommit:
                     connection.commit()
 
-                # Log the insert operation
-                self.log_operation(
-                    table_name=table_name,
-                    operation='INSERT',
-                    record_id=record_id,
-                    data_after=data_dict,
-                    user_context=user_context,
-                    connection=connection
-                )
-
                 cursor.close()
                 return record_id
 
