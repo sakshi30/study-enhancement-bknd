@@ -5,13 +5,14 @@ from file_parser import FileParser
 from dotenv import load_dotenv
 from algolia_server import AlgoliaServer
 from web_crawler import WebCrawler
+from flask_cors import CORS
 
 import bcrypt
 
 load_dotenv()
 
 app = Flask(__name__)
-
+CORS(app)
 fileparser = FileParser()
 webcrawler = WebCrawler()
 algoliaserver = AlgoliaServer()
