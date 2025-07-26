@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import re
 from prompts_dict import prompts_dict
 from ai_generator import AIGenerator
 
@@ -19,7 +20,9 @@ class WebCrawler:
         summary_prompt = prompts_dict["CRAWLER_PROMPT"] + response.text
 
         response_text = self.ai_generator.generate_response(summary_prompt)
-        output = json.loads(response_text)
+        clean_text = re.sub(r"^```(?:json)?|```$", "", response_text.strip(), flags=re.MULTILINE).strip()
+        print(clean_text)
+        output = json.loads(clean_text)
         self.extracted_content = {
             "user_id": id,
             'pages': 1,

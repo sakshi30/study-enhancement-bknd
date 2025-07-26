@@ -1,5 +1,6 @@
 import pdfplumber
 import json
+import re
 from io import BytesIO
 from prompts_dict import prompts_dict
 from ai_generator import AIGenerator
@@ -24,7 +25,9 @@ class FileParser:
                     #     tables.extend(page_tables)
                 summary_prompt = prompts_dict["SUMMARY_PROMPT"] + text_content
                 response_text = self.ai_generator.generate_response(summary_prompt)
-                response  = json.loads(response_text)
+                clean_text = re.sub(r"^```(?:json)?|```$", "", response_text.strip(), flags=re.MULTILINE).strip()
+
+                response  = json.loads(clean_text)
                 self.processed_files.append({
                     "user_id": id,
                     'filename': file.filename,
